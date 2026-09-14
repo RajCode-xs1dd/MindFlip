@@ -31,7 +31,7 @@
     <rect x="22" y="22" width="276" height="276" rx="46" fill="url(#brand)" opacity="0.12"/>
 
     <g>
-      <image href="brain-icon.svg?v=2" x="48" y="48" width="224" height="224" preserveAspectRatio="xMidYMid meet"/>
+      <image href="brain-icon.svg" x="48" y="48" width="224" height="224" preserveAspectRatio="xMidYMid meet"/>
     </g>
   </g>
 
