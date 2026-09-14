@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
+  <title id="title">MindFlip social preview</title>
+  <desc id="desc">MindFlip game social preview banner with a premium brain logo and readable text.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#020817"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <linearGradient id="panel" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#111827"/>
+      <stop offset="100%" stop-color="#0b1220"/>
+    </linearGradient>
+    <linearGradient id="brand" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#8b5cf6"/>
+      <stop offset="45%" stop-color="#3b82f6"/>
+      <stop offset="100%" stop-color="#14b8a6"/>
+    </linearGradient>
+    <radialGradient id="heroGlow" cx="50%" cy="50%" r="60%">
+      <stop offset="0%" stop-color="#8b5cf6" stop-opacity="0.38"/>
+      <stop offset="100%" stop-color="#8b5cf6" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <circle cx="144" cy="110" r="205" fill="url(#heroGlow)"/>
+  <circle cx="1025" cy="498" r="220" fill="#14b8a6" opacity="0.10"/>
+  <circle cx="930" cy="126" r="120" fill="#8b5cf6" opacity="0.12"/>
+
+  <g transform="translate(90,110)">
+    <rect x="0" y="0" width="320" height="320" rx="58" fill="url(#panel)" stroke="#334155" stroke-width="2"/>
+    <rect x="22" y="22" width="276" height="276" rx="46" fill="url(#brand)" opacity="0.12"/>
+
+    <g>
+      <image href="brain-icon.svg?v=2" x="48" y="48" width="224" height="224" preserveAspectRatio="xMidYMid meet"/>
+    </g>
+  </g>
+
+  <g transform="translate(465,150)">
+    <text x="0" y="92" fill="#f8fafc" font-size="88" font-weight="800" font-family="Segoe UI, Arial, sans-serif">MindFlip</text>
+    <text x="2" y="164" fill="#94a3b8" font-size="31" font-weight="700" letter-spacing="2" font-family="Segoe UI, Arial, sans-serif">A VISUAL SEQUENCE CHALLENGE</text>
+    <text x="0" y="238" fill="#34d399" font-size="32" font-weight="700" font-family="Segoe UI, Arial, sans-serif">Flip. Focus. Remember. Follow the sequence.</text>
+
+    <g transform="translate(0,300)">
+      <rect x="0" y="0" width="170" height="68" rx="18" fill="url(#brand)"/>
+      <text x="85" y="44" text-anchor="middle" fill="#f8fafc" font-size="26" font-weight="700" font-family="Segoe UI, Arial, sans-serif">Play</text>
+
+      <rect x="195" y="0" width="180" height="68" rx="18" fill="#0f172a" stroke="#475569"/>
+      <text x="285" y="44" text-anchor="middle" fill="#e2e8f0" font-size="26" font-weight="700" font-family="Segoe UI, Arial, sans-serif">Daily</text>
+    </g>
+  </g>
+</svg>

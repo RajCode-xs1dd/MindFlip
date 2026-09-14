@@ -1,0 +1,17 @@
+{
+  "name": "MindFlip - A Visual Sequence Challenge",
+  "short_name": "MindFlip",
+  "description": "Flip. Focus. Remember. Follow the sequence.",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#0f172a",
+  "theme_color": "#0f172a",
+  "icons": [
+    {
+      "src": "brain-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

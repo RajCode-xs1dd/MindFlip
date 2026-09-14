@@ -47,4 +47,4 @@ This version is structured for easy extension later, including:
 - online multiplayer using WebSockets
 
 ---
-*Developed by RajCode*
+*Developed by <a href="https://rajcode.netlify.app/" target="_blank" rel="noopener" class="text-brand-500 hover:text-brand-400 hover:underline font-bold transition">RajCode</a>.*
