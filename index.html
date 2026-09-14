@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MindFlip - A Visual Sequence Challenge</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 512 512%22><path fill=%22%236366f1%22 d=%22M256 32C132.3 32 32 132.3 32 256s100.3 224 224 224 224-100.3 224-224S379.7 32 256 32zm0 400c-97.2 0-176-78.8-176-176S158.8 80 256 80s176 78.8 176 176-78.8 176-176 176z%22/></svg>">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="flex flex-col min-h-screen">
+
+    <canvas id="confetti-canvas"></canvas>
+
+    <header class="bg-slate-800/80 backdrop-blur-sm border-b border-slate-700 sticky top-0 z-50">
+        <div class="max-w-4xl mx-auto px-4 py-3 flex justify-between items-center relative">
+            <div class="cursor-pointer flex items-center gap-2 focus:outline-none focus:ring-0" onclick="showView('home')">
+                <i class="fas fa-brain text-brand-500 text-2xl drop-shadow-md"></i>
+                <h1 class="text-2xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-brand-500 to-accent-500 focus:outline-none">
+                    MindFlip
+                </h1>
+            </div>
+
+            <nav class="hidden md:flex gap-4">
+                <button type="button" onclick="showView('home')" class="text-slate-300 hover:text-white transition focus:outline-none"><i class="fas fa-home"></i> Home</button>
+                <button type="button" onclick="showView('records')" class="text-slate-300 hover:text-white transition focus:outline-none"><i class="fas fa-trophy"></i> Records</button>
+                <button type="button" onclick="showView('settings')" class="text-slate-300 hover:text-white transition focus:outline-none"><i class="fas fa-cog"></i> Settings</button>
+            </nav>
+            <button type="button" class="md:hidden text-slate-300 text-xl focus:outline-none" onclick="document.getElementById('mobile-menu').classList.toggle('hidden')" aria-label="Toggle menu" title="Toggle menu">
+                <i class="fas fa-bars" aria-hidden="true"></i>
+            </button>
+        </div>
+        <div id="mobile-menu" class="hidden md:hidden bg-slate-800 border-t border-slate-700 px-4 py-2">
+            <button type="button" onclick="showView('home'); document.getElementById('mobile-menu').classList.add('hidden')" class="block py-2 w-full text-left text-slate-300"><i class="fas fa-home mr-2"></i> Home</button>
+            <button type="button" onclick="showView('records'); document.getElementById('mobile-menu').classList.add('hidden')" class="block py-2 w-full text-left text-slate-300"><i class="fas fa-trophy mr-2"></i> Records</button>
+            <button type="button" onclick="showView('settings'); document.getElementById('mobile-menu').classList.add('hidden')" class="block py-2 w-full text-left text-slate-300"><i class="fas fa-cog mr-2"></i> Settings</button>
+            <button type="button" onclick="showView('about'); document.getElementById('mobile-menu').classList.add('hidden')" class="block py-2 w-full text-left text-slate-300"><i class="fas fa-info-circle mr-2"></i> About</button>
+        </div>
+    </header>
+
+    <main class="flex-grow flex flex-col items-center p-4 max-w-4xl mx-auto w-full relative">
+
+        <!-- VIEW: HOME -->
+        <div id="view-home" class="w-full flex flex-col items-center justify-center py-10 animate-pop">
+            <div class="text-center mb-8">
+                <h2 class="text-4xl md:text-5xl font-bold mb-2">MindFlip</h2>
+                <h3 class="text-lg md:text-xl text-slate-400 mb-4">A Visual Sequence Challenge</h3>
+                <p class="text-brand-500 font-semibold italic">Flip. Focus. Remember. Follow the sequence.</p>
+            </div>
+
+            <div id="home-stats" class="bg-slate-800 p-4 rounded-xl border border-slate-700 w-full max-w-sm mb-8 hidden text-center shadow-lg">
+                <p class="text-slate-400 text-sm mb-2">Welcome back!</p>
+                <div class="flex justify-around">
+                    <div>
+                        <p class="text-xs text-slate-500 uppercase">Highest Lvl</p>
+                        <p class="font-bold text-xl text-accent-500" id="home-stat-level">-</p>
+                    </div>
+                    <div>
+                        <p class="text-xs text-slate-500 uppercase">Best Score</p>
+                        <p class="font-bold text-xl text-brand-500" id="home-stat-score">-</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 w-full max-w-md">
+                <button onclick="promptStartGame('solo')" class="col-span-1 md:col-span-2 bg-gradient-to-r from-brand-600 to-brand-500 hover:from-brand-500 hover:to-brand-400 text-white font-bold py-4 px-6 rounded-xl shadow-lg transition transform hover:scale-105 flex items-center justify-center gap-3 text-lg focus:outline-none">
+                    <i class="fas fa-play"></i> Play Solo
+                </button>
+                <button onclick="promptStartGame('twoPlayer')" class="bg-slate-700 hover:bg-slate-600 border border-slate-600 text-white font-semibold py-3 px-4 rounded-xl transition flex items-center justify-center gap-2 focus:outline-none">
+                    <i class="fas fa-user-friends"></i> Two Players
+                </button>
+                <button onclick="promptStartGame('computer')" class="bg-slate-700 hover:bg-slate-600 border border-slate-600 text-white font-semibold py-3 px-4 rounded-xl transition flex items-center justify-center gap-2 focus:outline-none">
+                    <i class="fas fa-robot"></i> Vs Computer
+                </button>
+                <button onclick="promptStartGame('daily')" class="col-span-1 md:col-span-2 bg-slate-800 hover:bg-slate-700 border border-accent-600/50 text-accent-500 hover:text-accent-400 font-semibold py-3 px-4 rounded-xl transition flex items-center justify-center gap-2 focus:outline-none">
+                    <i class="fas fa-calendar-day"></i> Daily Challenge
+                </button>
+            </div>
+            
+            <div class="mt-8 flex gap-4 text-sm">
+                <button onclick="showView('achievements')" class="text-slate-400 hover:text-white transition focus:outline-none"><i class="fas fa-medal"></i> Achievements</button>
+                <span class="text-slate-600">|</span>
+                <button onclick="showView('about')" class="text-slate-400 hover:text-white transition focus:outline-none"><i class="fas fa-info-circle"></i> About</button>
+            </div>
+        </div>
+
+        <!-- VIEW: GAME -->
+        <div id="view-game" class="w-full hidden flex-col items-center flex-grow pb-6 pt-6 sm:pt-4">
+            
+            <!-- Level & Quit Top Bar -->
+            <div class="w-full max-w-2xl flex justify-between items-center mb-3 px-1">
+                <div id="body-level-display" class="text-sm text-slate-300 font-semibold bg-slate-900/80 backdrop-blur px-4 py-1.5 rounded-full border border-slate-700 shadow-inner flex items-center gap-2 whitespace-nowrap">
+                    <i class="fas fa-layer-group text-brand-500"></i> <span id="body-level-text">Level 1</span>
+                </div>
+                
+                <button onclick="quitGame()" class="text-slate-400 hover:text-red-400 text-xs transition flex items-center gap-1.5 font-semibold bg-slate-800/80 hover:bg-slate-700 px-3 py-1.5 rounded-lg border border-slate-700 shadow-sm focus:outline-none">
+                    <i class="fas fa-sign-out-alt"></i> Save & Quit
+                </button>
+            </div>
+
+            <!-- HUD Card -->
+            <div class="w-full max-w-2xl bg-slate-800 rounded-xl p-4 mb-6 shadow-md border border-slate-700 flex flex-col justify-between items-center gap-4">
+                
+                <!-- Solo HUD -->
+                <div id="hud-solo" class="hidden w-full flex justify-between items-center">
+                    <div>
+                        <p class="text-xs text-slate-400 uppercase tracking-wide">Level</p>
+                        <p class="text-2xl font-bold text-white" id="hud-level">1</p>
+                    </div>
+                    <div class="text-center">
+                        <p class="text-xs text-slate-400 uppercase tracking-wide">Sequence</p>
+                        <div id="target-sequence" class="flex gap-2 text-lg font-mono tracking-widest text-slate-300"></div>
+                    </div>
+                    <div class="text-right">
+                        <p class="text-xs text-slate-400 uppercase tracking-wide">Mistakes</p>
+                        <p class="text-xl font-bold text-red-400" id="hud-mistakes">0</p>
+                    </div>
+                </div>
+
+                <!-- Multiplayer HUD -->
+                <div id="hud-multi" class="hidden w-full flex justify-between items-center">
+                    <div id="hud-p1-box" class="flex flex-col items-center p-2 rounded-lg border-2 border-transparent transition-colors">
+                        <p class="font-bold text-sm sm:text-base text-brand-400"><i class="fas fa-user"></i> Player 1</p>
+                        <p class="text-xs text-slate-400">Mistakes: <span id="multi-p1-mistakes" class="text-white font-bold">0</span></p>
+                    </div>
+                    
+                    <div class="flex flex-col items-center">
+                         <div id="turn-indicator" class="bg-brand-600 text-white text-xs font-bold px-3 py-1 rounded-full animate-pulse mb-2">P1 TURN</div>
+                         <div id="multi-target-sequence" class="flex gap-1 sm:gap-2 text-sm sm:text-lg font-mono text-slate-300"></div>
+                    </div>
+
+                    <div id="hud-p2-box" class="flex flex-col items-center p-2 rounded-lg border-2 border-transparent transition-colors">
+                        <p class="font-bold text-sm sm:text-base text-accent-400" id="hud-p2-name"><i class="fas fa-user-friends"></i> Player 2</p>
+                        <p class="text-xs text-slate-400">Mistakes: <span id="multi-p2-mistakes" class="text-white font-bold">0</span></p>
+                    </div>
+                </div>
+                
+                <!-- Daily HUD -->
+                <div id="hud-daily" class="hidden w-full flex justify-between items-center">
+                    <div>
+                        <p class="text-xs text-slate-400 uppercase tracking-wide">Daily</p>
+                        <p class="text-xl font-bold text-accent-400" id="daily-hud-title">Daily</p>
+                    </div>
+                    <div class="text-center">
+                        <p class="text-xs text-slate-400 uppercase tracking-wide">Sequence</p>
+                        <div id="daily-target-sequence" class="flex gap-2 text-lg font-mono tracking-widest text-slate-300"></div>
+                    </div>
+                    <div class="text-right">
+                        <p class="text-xs text-slate-400 uppercase tracking-wide">Mistakes</p>
+                        <p class="text-xl font-bold text-red-400" id="daily-hud-mistakes">0</p>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Game Board -->
+            <div id="game-board" class="flex flex-wrap justify-center gap-2.5 sm:gap-3.5 w-full max-w-2xl mx-auto"></div>
+        </div>
+
+        <!-- Modals & Overlays -->
+        <div id="overlay-message" class="fixed inset-0 bg-slate-900/90 backdrop-blur-sm z-50 flex items-center justify-center hidden">
+            <div class="bg-slate-800 p-8 rounded-2xl max-w-sm w-full mx-4 border border-slate-700 text-center shadow-2xl animate-pop">
+                <h3 id="msg-title" class="text-2xl font-bold mb-4 text-white">Message</h3>
+                <div id="msg-content" class="text-slate-300 mb-6 space-y-3 text-left"></div>
+                <button id="msg-btn" class="w-full bg-brand-600 hover:bg-brand-500 text-white font-bold py-3 px-4 rounded-xl transition focus:outline-none">
+                    Continue
+                </button>
+            </div>
+        </div>
+
+        <div id="overlay-turn" class="fixed inset-0 z-40 flex items-center justify-center pointer-events-none hidden">
+            <div id="turn-alert-box" class="bg-red-500/90 text-white px-8 py-4 rounded-full text-2xl font-bold tracking-wider shadow-2xl transform scale-0 transition-transform duration-300">
+                MISTAKE!
+            </div>
+        </div>
+
+        <!-- RECORDS VIEW -->
+        <div id="view-records" class="w-full max-w-md hidden animate-pop">
+            <h2 class="text-3xl font-bold mb-6 flex items-center gap-3"><i class="fas fa-trophy text-yellow-400"></i> My Records</h2>
+            <div class="bg-slate-800 rounded-xl border border-slate-700 p-4 space-y-4">
+                <div class="flex justify-between items-center border-b border-slate-700 pb-2">
+                    <span class="text-slate-400">Highest Level</span>
+                    <span class="font-bold text-xl text-accent-400" id="rec-level">0</span>
+                </div>
+                <div class="flex justify-between items-center border-b border-slate-700 pb-2">
+                    <span class="text-slate-400">Best Score</span>
+                    <span class="font-bold text-xl text-brand-400" id="rec-score">0</span>
+                </div>
+                <div class="flex justify-between items-center border-b border-slate-700 pb-2">
+                    <span class="text-slate-400">Levels Completed</span>
+                    <span class="font-bold text-lg text-white" id="rec-completed">0</span>
+                </div>
+                <div class="flex justify-between items-center">
+                    <span class="text-slate-400">Games Played</span>
+                    <span class="font-bold text-lg text-white" id="rec-played">0</span>
+                </div>
+            </div>
+            <button onclick="showView('home')" class="mt-6 w-full bg-slate-700 hover:bg-slate-600 text-white font-bold py-3 rounded-xl transition focus:outline-none">Back</button>
+        </div>
+
+        <!-- SETTINGS VIEW -->
+        <div id="view-settings" class="w-full max-w-md hidden animate-pop">
+            <h2 class="text-3xl font-bold mb-6 flex items-center gap-3"><i class="fas fa-cog text-slate-400"></i> Settings</h2>
+            <div class="bg-slate-800 rounded-xl border border-slate-700 p-4 space-y-6">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <p class="font-semibold text-white">Sound Effects</p>
+                        <p class="text-xs text-slate-400">Game audio</p>
+                    </div>
+                    <label for="set-sound" class="relative inline-flex items-center cursor-pointer" aria-label="Toggle sound effects">
+                        <input type="checkbox" id="set-sound" class="sr-only peer" onchange="toggleSetting('sound')" title="Toggle sound effects">
+                        <div class="w-11 h-6 bg-slate-600 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-brand-500"></div>
+                    </label>
+                </div>
+
+                <div class="flex justify-between items-center">
+                    <div>
+                        <p class="font-semibold text-white">Animations</p>
+                        <p class="text-xs text-slate-400">Visual effects</p>
+                    </div>
+                    <label for="set-anim" class="relative inline-flex items-center cursor-pointer" aria-label="Toggle animations">
+                        <input type="checkbox" id="set-anim" class="sr-only peer" onchange="toggleSetting('animations')" title="Toggle animations">
+                        <div class="w-11 h-6 bg-slate-600 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-brand-500"></div>
+                    </label>
+                </div>
+
+                 <div class="flex flex-col gap-2">
+                    <label for="set-diff" class="font-semibold text-white">Computer Difficulty</label>
+                    <select id="set-diff" class="bg-slate-700 border border-slate-600 text-white rounded-lg focus:ring-brand-500 focus:border-brand-500 block w-full p-2.5" onchange="changeDifficulty(this.value)" title="Select computer difficulty" aria-label="Select computer difficulty">
+                        <option value="easy">Easy (Poor Memory)</option>
+                        <option value="medium">Medium (Average)</option>
+                        <option value="hard">Hard (Good Memory)</option>
+                        <option value="expert">Expert (Near Perfect)</option>
+                    </select>
+                </div>
+
+                <div class="pt-4 border-t border-slate-700">
+                    <button onclick="resetData()" class="w-full bg-red-900/50 hover:bg-red-600 border border-red-700 text-red-200 font-bold py-2 rounded-lg transition text-sm focus:outline-none">
+                        <i class="fas fa-trash-alt mr-2"></i> Reset All Data
+                    </button>
+                </div>
+            </div>
+            <button onclick="showView('home')" class="mt-6 w-full bg-slate-700 hover:bg-slate-600 text-white font-bold py-3 rounded-xl transition focus:outline-none">Back</button>
+        </div>
+
+        <!-- ABOUT VIEW -->
+        <div id="view-about" class="w-full max-w-md hidden animate-pop">
+            <h2 class="text-3xl font-bold mb-4 text-brand-400">About MindFlip</h2>
+            <div class="bg-slate-800 rounded-xl border border-slate-700 p-5 space-y-4 text-sm text-slate-300 leading-relaxed">
+                <p><strong class="text-white">MindFlip</strong> is a visual sequence challenge built around attention, spatial memory, and pattern recognition.</p>
+                <p><strong>Core Rule:</strong> All cards start face-down. You must discover the hidden sequence in the correct order.</p>
+                <p><strong>Multiplayer:</strong> Share the device. Take turns. A mistake ends your turn. First to complete the full sequence wins immediately.</p>
+                <p class="pt-4 border-t border-slate-700 italic text-xs text-slate-400 text-center">
+                    A project by <a href="https://rajcode.netlify.app/" target="_blank" rel="noopener" class="text-brand-500 hover:text-brand-400 hover:underline font-bold transition">RajCode</a>. Visit the official portfolio at <a href="https://rajcode.netlify.app/" target="_blank" rel="noopener" class="text-accent-400 hover:underline">rajcode.netlify.app</a>.
+                </p>
+            </div>
+            <button onclick="showView('home')" class="mt-6 w-full bg-slate-700 hover:bg-slate-600 text-white font-bold py-3 rounded-xl transition focus:outline-none">Back</button>
+        </div>
+
+        <!-- ACHIEVEMENTS VIEW -->
+        <div id="view-achievements" class="w-full max-w-md hidden animate-pop">
+            <h2 class="text-3xl font-bold mb-6 flex items-center gap-3"><i class="fas fa-medal text-brand-400"></i> Achievements</h2>
+            <div id="achievements-list" class="space-y-3"></div>
+            <button onclick="showView('home')" class="mt-6 w-full bg-slate-700 hover:bg-slate-600 text-white font-bold py-3 rounded-xl transition focus:outline-none">Back</button>
+        </div>
+
+    </main>
+
+    <footer class="w-full text-center py-6 text-slate-500 text-xs sm:text-sm border-t border-slate-800 bg-slate-900/50 mt-auto">
+        <p>&copy; 2026 MindFlip. Developed with ❤️ by <a href="https://rajcode.netlify.app/" target="_blank" rel="noopener" class="text-brand-500 hover:text-brand-400 font-bold transition">RajCode</a>.</p>
+        </p>All rights reserved.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
