@@ -35,11 +35,17 @@
     <rect x="0" y="0" width="320" height="320" rx="58" fill="url(#panel)" stroke="#334155" stroke-width="2"/>
     <rect x="22" y="22" width="276" height="276" rx="46" fill="url(#brand)" opacity="0.12"/>
 
-    <!-- Embedded brain icon -->
-    <g transform="translate(48, 48) scale(0.4375)">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="MindFlip brain icon">
-        <rect width="512" height="512" rx="96" fill="#0f172a"/>
-        <path d="M214 98c-44 0-79 31-87 73-9-3-19-5-29-5-41 0-75 34-75 75 0 20 8 38 21 51-12 13-20 32-20 52 0 42 34 76 76 76h18c10 27 35 46 64 46 18 0 35-7 48-19 13 12 30 19 48 19 29 0 54-19 64-46h18c42 0 76-34 76-76 0-20-8-39-20-52 13-13 21-31 21-51 0-41-34-75-75-75-10 0-20 2-29 5-8-42-43-73-87-73z" fill="url(#brainGradient)"/>
+    <!-- Brain icon - centered and scaled -->
+    <g transform="translate(160, 160) scale(0.55) translate(-256, -256)">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="MindFlip brain icon" width="512" height="512">
+        <defs>
+          <linearGradient id="brainFill" x1="0" x2="1" y1="0" y2="1">
+            <stop offset="0%" stop-color="#8b5cf6"/>
+            <stop offset="50%" stop-color="#3b82f6"/>
+            <stop offset="100%" stop-color="#14b8a6"/>
+          </linearGradient>
+        </defs>
+        <path fill="url(#brainFill)" d="M214 98c-44 0-79 31-87 73-9-3-19-5-29-5-41 0-75 34-75 75 0 20 8 38 21 51-12 13-20 32-20 52 0 42 34 76 76 76h18c10 27 35 46 64 46 18 0 35-7 48-19 13 12 30 19 48 19 29 0 54-19 64-46h18c42 0 76-34 76-76 0-20-8-39-20-52 13-13 21-31 21-51 0-41-34-75-75-75-10 0-20 2-29 5-8-42-43-73-87-73zm0 32c30 0 55 21 61 49h-122c6-28 31-49 61-49zm-118 81c25 0 45 20 45 45s-20 45-45 45c-25 0-45-20-45-45s20-45 45-45zm236 0c25 0 45 20 45 45s-20 45-45 45-45-20-45-45 20-45 45-45zm-177 111c15 0 27 12 27 27s-12 27-27 27-27-12-27-27 12-27 27-27zm118 0c15 0 27 12 27 27s-12 27-27 27-27-12-27-27 12-27 27-27z"/>
       </svg>
     </g>
   </g>
